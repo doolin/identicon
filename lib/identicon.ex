@@ -3,15 +3,6 @@ defmodule Identicon do
   Documentation for Identicon.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Identicon.hello()
-      :world
-
-  """
   def main(input) do
     input
     |> hash_input
@@ -19,10 +10,23 @@ defmodule Identicon do
     |> build_grid
   end
 
-  def build_grid(%Identicon.Image(hex: hex) = image) do
+  def build_grid(%Identicon.Image{hex: hex} = image) do
     hex
     |> Enum.chunk(3)
     |> mirror_row
+  end
+
+  @doc """
+  mirror_row
+
+  ## Examples
+
+      iex> Identicon.mirror_row([145, 46, 200])
+      [145, 46, 200, 46, 145]
+  """
+  def mirror_row(row) do
+    [first, second | _tail] = row
+    row ++ [second, first]
   end
 
   def pick_color(%Identicon.Image{hex: [r, g, b | _tail]} = image) do
